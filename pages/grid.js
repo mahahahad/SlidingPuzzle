@@ -5,10 +5,11 @@ import { motion } from "framer-motion";
 
 export default function Grid() {
 	const [tiles, setTiles] = useState([
-		[1, 2, 3],
-		[4, 9, 5],
-		[6, 7, 8],
+		[7, 6, 2],
+		[3, 9, 8],
+		[5, 1, 4],
 	]);
+  const [gameOver, setGameOver] = useState(false);
 
   // Move the specified tile to the location of the empty tile
   const swapTiles = (currentTile, emptyTile) => {
@@ -103,11 +104,11 @@ export default function Grid() {
 		swapTiles(currentTile, emptyTile);
 
 		// Check if the grid is sorted and notify user
-		if (isSorted(tiles)) alert("You won!");
+		isSorted(tiles) ? setGameOver(true) : setGameOver(false);
 	}
 
 	return (
-		<motion.div key="tiles-grid" className={styles.grid} layout>
+		<div key="tiles-grid" className={styles.grid} layout>
 			{tiles?.length > 0 &&
 				tiles.map((row, y) => {
 					return (
@@ -123,7 +124,7 @@ export default function Grid() {
                 }}
                 key={`tile-${tile}`}
                 layoutId={`tile-${tile}`}
-                transition={{ type: "spring", duration: 0.3 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20}}
               >
                 <Tile
                   type={
@@ -131,12 +132,13 @@ export default function Grid() {
                       ? "empty"
                       : "default"
                   }
+                  background={gameOver}
                   value={tile}
                 />
               </motion.div>
 						))
 					);
 				})}
-		</motion.div>
+		</div>
 	);
 }
