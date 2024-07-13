@@ -9,9 +9,6 @@ export default function Grid() {
 		[4, 9, 5],
 		[6, 7, 8],
 	]);
-  const [clicked, setClicked] = useState(false);
-
-  const gridSize = 3;
 
   // Move the specified tile to the location of the empty tile
   const swapTiles = (currentTile, emptyTile) => {
@@ -109,21 +106,6 @@ export default function Grid() {
 		if (isSorted(tiles)) alert("You won!");
 	}
 
-  const tileVariants = {
-    idle: {
-      scale: 1,
-      transition: { duration: 0.2 },
-    },
-    moving: {
-      scale: 1.1,
-      transition: { duration: 0.3 },
-    },
-    hover: {
-      scale: 1.05,
-      transition: { duration: 0.1 },
-    },
-  }
-
 	return (
 		<motion.div key="tiles-grid" className={styles.grid} layout>
 			{tiles?.length > 0 &&
@@ -141,9 +123,7 @@ export default function Grid() {
                 }}
                 key={`tile-${tile}`}
                 layoutId={`tile-${tile}`}
-                variants={tileVariants}
-                animate="idle"
-                whileHover="hover"
+                transition={{ type: "spring", duration: 0.3 }}
               >
                 <Tile
                   type={

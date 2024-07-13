@@ -16,6 +16,8 @@
 }
 
 .tile {
+  --bg-color: #000000;
+  --fg-color: #FFFFFF;
   user-select: none;
   aspect-ratio: 1/1;
   height: 200px;
