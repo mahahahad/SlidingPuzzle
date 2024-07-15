@@ -7,16 +7,16 @@ import { motion } from "framer-motion";
 // Loops through each element and checks if it is less than the next element
 // If it isn't, returns immediately
 const isSorted = (tiles) => {
-  const totalNumbers = tiles[0].length * tiles.length;
+  const totalNumbers = tiles[0]?.length * tiles?.length;
   let i = 0;
 
   while (i < totalNumbers) {
     let currentEl =
-      tiles[Math.floor(i / tiles[0].length)][i % tiles.length];
+      tiles[Math.floor(i / tiles[0]?.length)][i % tiles?.length];
     if (i + 1 >= totalNumbers) return true;
     let nextEl =
-      tiles[Math.floor((i + 1) / tiles[0].length)][
-        (i + 1) % tiles.length
+      tiles[Math.floor((i + 1) / tiles[0]?.length)][
+        (i + 1) % tiles?.length
       ];
     if (currentEl > nextEl) return false;
     i++;
@@ -82,7 +82,7 @@ function getRandomValidDirection(prevDirection, currentTile, tiles) {
     validDirections.push(DIRECTIONS.UP);
   }
   if (
-    currentTile.y != (tiles.length - 1) &&
+    currentTile.y != (tiles?.length - 1) &&
     JSON.stringify(prevDirection) != JSON.stringify(DIRECTIONS.UP)
   ) {
     validDirections.push(DIRECTIONS.DOWN);
@@ -94,12 +94,12 @@ function getRandomValidDirection(prevDirection, currentTile, tiles) {
     validDirections.push(DIRECTIONS.LEFT);
   }
   if (
-    currentTile.x != (tiles[0].length - 1) &&
+    currentTile.x != (tiles[0]?.length - 1) &&
     JSON.stringify(prevDirection) != JSON.stringify(DIRECTIONS.LEFT)
   ) {
     validDirections.push(DIRECTIONS.RIGHT);
   }
-  randomInt = Math.floor(Math.random() * validDirections.length);
+  randomInt = Math.floor(Math.random() * validDirections?.length);
   return (validDirections[randomInt]);
 }
 
@@ -198,12 +198,12 @@ export default function Grid({shuffle, setShuffle, setMoves, size }) {
    */
   const hasMaxNeighbour = (currentTile) => {
     if (
-      currentTile.y + 1 < tiles[0].length &&
+      currentTile.y + 1 < tiles[0]?.length &&
       tiles[currentTile.y + 1][currentTile.x] == maxTile.value
     )
       return true;
     if (
-      currentTile.x + 1 < tiles.length &&
+      currentTile.x + 1 < tiles?.length &&
       tiles[currentTile.y][currentTile.x + 1] == maxTile.value
     )
       return true;
