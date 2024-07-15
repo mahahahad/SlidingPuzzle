@@ -5,6 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
 }
 
 .grid {
@@ -40,11 +41,34 @@
   background-color: greenyellow;
 }
 
+.input {
+  font: inherit;
+  text-align: center;
+  background: transparent;
+  border-color: transparent;
+}
+
 .btn {
-  padding: 1rem 2rem;
   cursor: pointer;
   border-radius: 0.25rem;
   font: inherit;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+}
+
+.btnMedium {
+  padding: 1rem 2rem;
+}
+
+.btnSmall {
+  aspect-ratio: 1/1;
+  padding: 0.5rem 0.75rem;
+}
+
+.btnSmall__outline {
+  background: transparent;
+  border: 1px solid currentColor;
 }
 
 .btn__secondary {
@@ -60,6 +84,17 @@
 
 .actionWrapper > .btn {
   flex-grow: 1;
+}
+
+.moveWrapper {
+  display: flex;
+  gap: 1rem;
+  font-size: clamp(1vmin, 1.5rem, 1.5vmin);
+}
+
+.gridSizeWrapper {
+  display: flex;
+  gap: 1rem;
 }
 
 @media (prefers-color-scheme: dark) {

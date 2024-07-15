@@ -103,12 +103,25 @@ function getRandomValidDirection(prevDirection, currentTile, tiles) {
   return (validDirections[randomInt]);
 }
 
-export default function Grid() {
-	const [tiles, setTiles] = useState([
-		[1, 2, 3],
-		[4, 5, 6],
-		[7, 8, 9],
-	]);
+function createGrid(sizeX, sizeY) {
+  let grid = [];
+  let innerGrid = [];
+  let count = 1;
+
+  for (let y = 0; y < sizeY; y++) {
+    for (let i = 0; i < sizeX; i++) {
+      innerGrid.push(count++);
+    }
+    grid.push(innerGrid);
+    console.log(innerGrid);
+    innerGrid = [];
+  }
+  return (grid);
+}
+
+export default function Grid({ moves, setMoves, sizeX = 3, sizeY = 3 }) {
+  const [interactable, setInteractable] = useState(false);
+	const [tiles, setTiles] = useState(createGrid(sizeX, sizeY));
   const [gameOver, setGameOver] = useState(isSorted(tiles));
   let maxTile = getMaxTile(tiles);
 
@@ -135,7 +148,7 @@ export default function Grid() {
     return (new Promise((res) => {
       setTimeout(() => {
         res();
-      }, 250);
+      }, 50);
     }))
   };
 
@@ -146,7 +159,7 @@ export default function Grid() {
    */
   const shuffleTiles = async () => {
     let newTiles = [...tiles];
-    let iterations = 10;
+    let iterations = sizeX * sizeY;
     let randDirection;
 
     for (let i = 0; i < iterations; i++) {
@@ -158,6 +171,7 @@ export default function Grid() {
       });
     }
     setTiles(newTiles);
+    setInteractable(true);
   }
 
   useEffect(() => {
@@ -207,10 +221,11 @@ export default function Grid() {
 		// Move only if the currentTile has the maxTile near it
 		if (!hasMaxNeighbour(currentTile)) return;
 		swapTiles(currentTile);
+    setMoves((moves) => moves + 1);
 	}
 
 	return (
-		<div key="tiles-grid" className={styles.grid}>
+		<div key="tiles-grid" className={styles.grid} style={{ gridTemplateColumns: `repeat(${sizeX}, 1fr)` }}>
 			{tiles?.length > 0 &&
 				tiles.map((row, y) => {
 					return (
@@ -218,11 +233,12 @@ export default function Grid() {
 						row.map((tile, x) => (
               <motion.div
                 onClick={() => {
+                  interactable ?
                   handleClick(
                     x,
                     y,
                     tile,
-                  );
+                  ) : undefined;
                 }}
                 key={`tile-${tile}`}
                 layoutId={`tile-${tile}`}
