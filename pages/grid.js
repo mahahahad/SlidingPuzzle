@@ -159,7 +159,7 @@ export default function Grid({ moves, setMoves, sizeX = 3, sizeY = 3 }) {
    */
   const shuffleTiles = async () => {
     let newTiles = [...tiles];
-    let iterations = sizeX * sizeY;
+    let iterations = sizeX * sizeY * 2;
     let randDirection;
 
     for (let i = 0; i < iterations; i++) {
