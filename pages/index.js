@@ -2,29 +2,31 @@ import styles from '../styles/Home.module.css';
 import Grid from "./grid"
 import MoveWrapper from './moveWrapper';
 import { useState } from "react";
-import { Minus, Plus } from 'lucide-react';
+import OptionsWrapper from './optionsWrapper';
 
 export default function Home() {
   const [moves, setMoves] = useState(0);
+  const [size, setSize] = useState(3);
+  const [shuffle, setShuffle] = useState(false);
 
   return (
     <div className={styles.container}>
-      <MoveWrapper moves={moves} />
-      <Grid moves={moves} setMoves={setMoves}/>
-      {/* <div className={styles.gridSizeWrapper}>
-        <button className={`${styles.btn} ${styles.btnSmall} ${styles.btnSmall__outline}`}>
-          <Minus size={24}/>
-        </button>
-        <input
-          type='number'
-          value={3}
-          className={styles.input}
-          disabled
+      <div className={styles.gridWrapper} >
+        <MoveWrapper moves={moves} />
+        <Grid
+          shuffle={shuffle}
+          setShuffle={setShuffle}
+          size={size}
+          moves={moves}
+          setMoves={setMoves}
         />
-        <button className={`${styles.btn} ${styles.btnSmall} ${styles.btnSmall__outline}`}>
-          <Plus size={24}/>
-        </button>
-      </div> */}
+      </div>
+      <OptionsWrapper
+        size={size}
+        setSize={setSize}
+        shuffle={shuffle}
+        setShuffle={setShuffle}
+      />
     </div>
   );
 }

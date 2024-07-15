@@ -1,9 +1,9 @@
 .container {
-  min-height: 100vh;
-  padding: 0 0.5rem;
+  height: 100vh;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 1rem;
 }
@@ -16,13 +16,52 @@
   gap: clamp(1.5vmin, 1rem, 3vmin);
 }
 
+.gridWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-grow: 6;
+}
+
+.optionsTitle {
+  font-size: clamp(1.5rem, 3.5vmin, 2rem);
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+.optionsWrapper {
+  background: #222;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.optionsGroupWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.optionsGroupTitle {
+  font-size: clamp(0.75rem, 2vmin, 1.5rem);
+  margin: 0;
+}
+
+.optionsAction {
+  margin-top: 2rem;
+}
+
 .tile {
   --bg-color: #000000;
   --fg-color: #FFFFFF;
   user-select: none;
   aspect-ratio: 1/1;
-  height: clamp(2.5vmin, 14rem, 20vmin);
-  font-size: clamp(1.5vmin, 6rem, 3vmin);
+  height: clamp(1rem, 10vmin, 10rem);
+  font-size: clamp(0.5rem, 1.5vmin, 1rem);
   border-radius: .25rem;
   cursor: pointer;
   display: flex;
@@ -46,6 +85,7 @@
   text-align: center;
   background: transparent;
   border-color: transparent;
+  color: currentColor;
 }
 
 .btn {
@@ -55,6 +95,7 @@
   vertical-align: middle;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .btnMedium {
@@ -66,7 +107,7 @@
   padding: 0.5rem 0.75rem;
 }
 
-.btnSmall__outline {
+.btn__outline {
   background: transparent;
   border: 1px solid currentColor;
 }
@@ -76,25 +117,15 @@
   border: 1px solid currentColor;
 }
 
-.actionWrapper {
-  margin-top: 1rem;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.actionWrapper > .btn {
-  flex-grow: 1;
-}
-
 .moveWrapper {
   display: flex;
   gap: 1rem;
-  font-size: clamp(1vmin, 1.5rem, 1.5vmin);
+  font-size: clamp(0.5rem, 1.5vmin, 2rem);
 }
 
-.gridSizeWrapper {
+.sizeInputWrapper {
   display: flex;
-  gap: 1rem;
+  justify-content: space-between;
 }
 
 @media (prefers-color-scheme: dark) {

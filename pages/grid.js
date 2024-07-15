@@ -113,17 +113,21 @@ function createGrid(sizeX, sizeY) {
       innerGrid.push(count++);
     }
     grid.push(innerGrid);
-    console.log(innerGrid);
     innerGrid = [];
   }
   return (grid);
 }
 
-export default function Grid({ moves, setMoves, sizeX = 3, sizeY = 3 }) {
-  const [interactable, setInteractable] = useState(false);
-	const [tiles, setTiles] = useState(createGrid(sizeX, sizeY));
+export default function Grid({shuffle, setShuffle, setMoves, size }) {
+  const [interactable, setInteractable] = useState(true);
+	const [tiles, setTiles] = useState(createGrid(size, size));
   const [gameOver, setGameOver] = useState(isSorted(tiles));
   let maxTile = getMaxTile(tiles);
+
+  useEffect(() => {
+    setTiles(createGrid(size, size));
+    setGameOver(isSorted(tiles));
+  }, [size]);
 
   /**
    * Swap the locations of the currentTile and the maxTile
@@ -159,9 +163,10 @@ export default function Grid({ moves, setMoves, sizeX = 3, sizeY = 3 }) {
    */
   const shuffleTiles = async () => {
     let newTiles = [...tiles];
-    let iterations = sizeX * sizeY * 2;
+    let iterations = size ** 3;
     let randDirection;
 
+    setInteractable(false);
     for (let i = 0; i < iterations; i++) {
       randDirection = getRandomValidDirection(randDirection, maxTile, tiles);
       await swapTiles({
@@ -175,8 +180,12 @@ export default function Grid({ moves, setMoves, sizeX = 3, sizeY = 3 }) {
   }
 
   useEffect(() => {
-    shuffleTiles();
-  }, [])
+    if (shuffle)
+    {
+      shuffleTiles()
+      setShuffle(!shuffle);
+    }
+  }, [shuffle])
 
   /**
    * Check if the currentTile has the maxTile as a neighbour i.e. in locations 
@@ -225,7 +234,13 @@ export default function Grid({ moves, setMoves, sizeX = 3, sizeY = 3 }) {
 	}
 
 	return (
-		<div key="tiles-grid" className={styles.grid} style={{ gridTemplateColumns: `repeat(${sizeX}, 1fr)` }}>
+		<div
+      key="tiles-grid"
+      className={styles.grid}
+      style={{
+        gridTemplateColumns: `repeat(${size}, 1fr)`
+      }}
+    >
 			{tiles?.length > 0 &&
 				tiles.map((row, y) => {
 					return (
