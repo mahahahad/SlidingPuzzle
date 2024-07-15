@@ -1,114 +1,216 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import Tile from "../components/tile";
 import { motion } from "framer-motion";
 
-export default function Grid() {
-	const [tiles, setTiles] = useState([
-		[7, 6, 2],
-		[3, 9, 8],
-		[5, 1, 4],
-	]);
-  const [gameOver, setGameOver] = useState(false);
+// Check if each element in each row of the grid is sorted
+// Loops through each element and checks if it is less than the next element
+// If it isn't, returns immediately
+const isSorted = (tiles) => {
+  const totalNumbers = tiles[0].length * tiles.length;
+  let i = 0;
 
-  // Move the specified tile to the location of the empty tile
-  const swapTiles = (currentTile, emptyTile) => {
-    let newTiles = [...tiles];
-    newTiles[emptyTile.y].splice(emptyTile.x, 1, currentTile.value);
-    newTiles[currentTile.y].splice(currentTile.x, 1, emptyTile.value);
-    setTiles(newTiles);
+  while (i < totalNumbers) {
+    let currentEl =
+      tiles[Math.floor(i / tiles[0].length)][i % tiles.length];
+    if (i + 1 >= totalNumbers) return true;
+    let nextEl =
+      tiles[Math.floor((i + 1) / tiles[0].length)][
+        (i + 1) % tiles.length
+      ];
+    if (currentEl > nextEl) return false;
+    i++;
+  }
+  return true;
+}
+
+/**
+ * Gets the location of the tile with the max value from the provided 2D array
+ * of numbers and returns it as a tile object.
+ * 
+ * @param {number[][]} tiles The 2D array of numbers to find the max from
+ * @returns {{x: number, y: number, value: number}} maxTile
+ */
+function getMaxTile(tiles) {
+  let highest;
+  let maxTile = {
+    x: 0,
+    y: 0,
+    value: 0,
   };
 
-  // Check if each element in each row of the grid is sorted
-  // Loops through each element and checks if it is less than the next element
-  // If it isn't, returns immediately
-  const isSorted = () => {
-    const totalNumbers = tiles[0].length * tiles.length;
-    let i = 0;
+  tiles.forEach((row, y) => {
+    row.forEach((el, x) => {
+      if (!highest || el > highest){
+        highest = el
+        maxTile.x = x;
+        maxTile.y = y;
+        maxTile.value = el;
+      };
+    });
+  });
+  return (maxTile);
+};
 
-    while (i < totalNumbers) {
-      let currentEl =
-        tiles[Math.floor(i / tiles[0].length)][i % tiles.length];
-      if (i + 1 >= totalNumbers) return true;
-      let nextEl =
-        tiles[Math.floor((i + 1) / tiles[0].length)][
-          (i + 1) % tiles.length
-        ];
-      if (currentEl > nextEl) return false;
-      i++;
+/**
+ * Get a random direction from the provided tile ensuring that it is within
+ * the grid and that it is not the previous direction.
+ * Appends directions from the DIRECTIONS object to the validDirections array
+ * based on which tiles the currentTile can move to and returns a random
+ * direction from this array.
+ * 
+ * @param {{x: number, y: number}} prevDirection
+ * @param {{x: number, y: number, value: number}} currentTile
+ * @param {number[][]} tiles
+ * @returns 
+ */
+function getRandomValidDirection(prevDirection, currentTile, tiles) {
+  const DIRECTIONS = {
+    UP: { x: 0, y: -1 },
+    RIGHT: { x: 1, y: 0 },
+    DOWN: { x: 0, y: 1 },
+    LEFT: { x: -1, y: 0 }
+  };
+  let validDirections = [];
+  let randomInt;
+
+  // console.log(JSON.stringify(prevDirection) == JSON.stringify(DIRECTIONS.UP));
+  if (
+    currentTile.y != 0 &&
+    JSON.stringify(prevDirection) != JSON.stringify(DIRECTIONS.DOWN)
+  ) {
+    validDirections.push(DIRECTIONS.UP);
+  }
+  if (
+    currentTile.y != (tiles.length - 1) &&
+    JSON.stringify(prevDirection) != JSON.stringify(DIRECTIONS.UP)
+  ) {
+    validDirections.push(DIRECTIONS.DOWN);
+  }
+  if (
+    currentTile.x != 0 &&
+    JSON.stringify(prevDirection) != JSON.stringify(DIRECTIONS.RIGHT)
+  ) {
+    validDirections.push(DIRECTIONS.LEFT);
+  }
+  if (
+    currentTile.x != (tiles[0].length - 1) &&
+    JSON.stringify(prevDirection) != JSON.stringify(DIRECTIONS.LEFT)
+  ) {
+    validDirections.push(DIRECTIONS.RIGHT);
+  }
+  randomInt = Math.floor(Math.random() * validDirections.length);
+  return (validDirections[randomInt]);
+}
+
+export default function Grid() {
+	const [tiles, setTiles] = useState([
+		[1, 2, 3],
+		[4, 5, 6],
+		[7, 8, 9],
+	]);
+  const [gameOver, setGameOver] = useState(isSorted(tiles));
+  let maxTile = getMaxTile(tiles);
+
+  /**
+   * Swap the locations of the currentTile and the maxTile
+   * 
+   * @param {{x: number, y: number, value: number}} currentTile 
+   */
+  const swapTiles = (currentTile) => {
+    let newTiles = [...tiles];
+
+    if (currentTile.x < 0 || currentTile.y < 0)
+      return ;
+    newTiles[maxTile.y].splice(maxTile.x, 1, currentTile.value);
+    newTiles[currentTile.y].splice(currentTile.x, 1, maxTile.value);
+
+    // Update the tiles
+    setTiles(newTiles);
+
+    maxTile = getMaxTile(tiles);
+  
+		// Check if the grid is sorted and notify user
+		isSorted(tiles) ? setGameOver(true) : setGameOver(false);
+    return (new Promise((res) => {
+      setTimeout(() => {
+        res();
+      }, 250);
+    }))
+  };
+
+  /**
+   * Shuffle the provided grid of tiles in a way that is still solvable.
+   * Moves the empty tile to a randomly selected neighbour, a specified amount
+   * of times.
+   */
+  const shuffleTiles = async () => {
+    let newTiles = [...tiles];
+    let iterations = 10;
+    let randDirection;
+
+    for (let i = 0; i < iterations; i++) {
+      randDirection = getRandomValidDirection(randDirection, maxTile, tiles);
+      await swapTiles({
+        x: maxTile.x + randDirection.x,
+        y: maxTile.y + randDirection.y,
+        value: newTiles[maxTile.y + randDirection.y][maxTile.x + randDirection.x]
+      });
     }
-    return true;
+    setTiles(newTiles);
   }
 
-  // Check if the currentTile has an empty tile in locations that it can move to // (Up, Down, Left, Right) and return true or false respectively
-  const getEmptyNeighbour = (currentTile, emptyVal) => {
+  useEffect(() => {
+    shuffleTiles();
+  }, [])
+
+  /**
+   * Check if the currentTile has the maxTile as a neighbour i.e. in locations 
+   * that it can move to (Up, Down, Left, Right) and return true or false 
+   * respectively
+   * 
+   * @param {{x: number, y: number, value: number}} currentTile The tile who's 
+   * neighbours are to be checked.
+   * @returns {boolean}
+   */
+  const hasMaxNeighbour = (currentTile) => {
     if (
       currentTile.y + 1 < tiles[0].length &&
-      tiles[currentTile.y + 1][currentTile.x] == emptyVal
+      tiles[currentTile.y + 1][currentTile.x] == maxTile.value
     )
       return true;
     if (
       currentTile.x + 1 < tiles.length &&
-      tiles[currentTile.y][currentTile.x + 1] == emptyVal
+      tiles[currentTile.y][currentTile.x + 1] == maxTile.value
     )
       return true;
     if (
       currentTile.y - 1 >= 0 &&
-      tiles[currentTile.y - 1][currentTile.x] == emptyVal
+      tiles[currentTile.y - 1][currentTile.x] == maxTile.value
     )
       return true;
     if (
       currentTile.x - 1 >= 0 &&
-      tiles[currentTile.y][currentTile.x - 1] == emptyVal
+      tiles[currentTile.y][currentTile.x - 1] == maxTile.value
     )
       return true;
     return false;
   }
 
-	const isMax = (num) => {
-		let highest;
-		tiles.forEach((row) => {
-			row.forEach((el) => {
-				if (!highest || el > highest) highest = el;
-			});
-		});
-		return num == highest;
-	};
-
 	const handleClick = (tileX, tileY, value) => {
-		let emptyTile = {
-			x: 0,
-			y: 0,
-			value: 0,
-		};
 		let currentTile = {
 			x: tileX,
 			y: tileY,
 			value: value,
 		};
 
-
-		// Set empty tile location
-		tiles.forEach((row, y) => {
-			row.forEach((tile, x) => {
-				if (isMax(tile)) {
-					emptyTile.x = x;
-					emptyTile.y = y;
-					emptyTile.value = tile;
-				}
-			});
-		});
-
-		// Move only if the move is valid
-		if (!getEmptyNeighbour(currentTile, emptyTile.value)) return;
-		swapTiles(currentTile, emptyTile);
-
-		// Check if the grid is sorted and notify user
-		isSorted(tiles) ? setGameOver(true) : setGameOver(false);
+		// Move only if the currentTile has the maxTile near it
+		if (!hasMaxNeighbour(currentTile)) return;
+		swapTiles(currentTile);
 	}
 
 	return (
-		<div key="tiles-grid" className={styles.grid} layout>
+		<div key="tiles-grid" className={styles.grid}>
 			{tiles?.length > 0 &&
 				tiles.map((row, y) => {
 					return (
@@ -128,7 +230,7 @@ export default function Grid() {
               >
                 <Tile
                   type={
-                    isMax(tile)
+                    tile == maxTile.value
                       ? "empty"
                       : "default"
                   }
