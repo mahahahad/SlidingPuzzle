@@ -13,7 +13,6 @@ export default function Home() {
   const [shuffle, setShuffle] = useState(true); // Default to true to shuffle initially
 
   useEffect(() => {
-
     const interval = setInterval(() => {
       setTime((prevTime) => prevTime + 1);
     }, 1000);

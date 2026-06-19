@@ -36,7 +36,7 @@ export default function OptionsWrapper({ size, setSize, shuffle, setShuffle }) {
       <div className={styles.dropdownContainer} ref={dropdownRef}>
         <button
           className={styles.settingsBtn}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(!shuffle && !isOpen)}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
         >

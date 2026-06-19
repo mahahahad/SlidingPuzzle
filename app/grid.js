@@ -177,14 +177,11 @@ export default function Grid({shuffle, setShuffle, setMoves, size }) {
     }
     setTiles(newTiles);
     setInteractable(true);
+    setShuffle(false);
   }
 
   useEffect(() => {
-    if (shuffle)
-    {
-      shuffleTiles()
-      setShuffle(!shuffle);
-    }
+    if (shuffle) shuffleTiles();
   }, [shuffle])
 
   /**
