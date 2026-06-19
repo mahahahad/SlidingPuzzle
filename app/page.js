@@ -2,7 +2,7 @@
 
 import styles from '../styles/Home.module.css';
 import Grid from "./grid"
-import MoveWrapper from './moveWrapper';
+import StatWrapper from './statWrapper';
 import { useState } from "react";
 import OptionsWrapper from './optionsWrapper';
 
@@ -13,8 +13,10 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.gridWrapper} >
-        <MoveWrapper moves={moves} />
+      <div className={styles.gridWrapper}>
+        <div className={styles.stats}>
+          <StatWrapper type={"moves"} value={moves} />
+        </div>
         <div className={styles.gameplayArea}>
           <OptionsWrapper
             size={size}
