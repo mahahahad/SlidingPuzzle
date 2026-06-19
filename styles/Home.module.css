@@ -188,7 +188,6 @@
 }
 
 .input {
-  font: inherit;
   text-align: center;
   background: transparent;
   border-color: transparent;
@@ -198,7 +197,6 @@
 .btn {
   cursor: pointer;
   border-radius: 0.25rem;
-  font: inherit;
   vertical-align: middle;
   display: flex;
   align-items: center;

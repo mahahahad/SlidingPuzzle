@@ -7,9 +7,10 @@ body {
   color: #f4f4f5; /* Light gray text */
 }
 
-a {
+a, button, input {
   color: inherit;
   text-decoration: none;
+  font: inherit;
 }
 
 * {
