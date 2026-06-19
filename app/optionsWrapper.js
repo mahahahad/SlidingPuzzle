@@ -11,6 +11,7 @@ export default function OptionsWrapper({ size, setSize, shuffle, setShuffle }) {
   };
 
   const handleSizeSelect = (newSize) => {
+    if (newSize == size) return;
     setSize(newSize);
     setIsOpen(false);
   };

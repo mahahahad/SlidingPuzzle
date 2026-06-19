@@ -118,7 +118,7 @@ function createGrid(sizeX, sizeY) {
   return (grid);
 }
 
-export default function Grid({shuffle, setShuffle, setMoves, size }) {
+export default function Grid({shuffle, setShuffle, setMoves, size, setTime, setPaused }) {
   const [interactable, setInteractable] = useState(true);
 	const [tiles, setTiles] = useState(createGrid(size, size));
   const [gameOver, setGameOver] = useState(isSorted(tiles));
@@ -127,7 +127,7 @@ export default function Grid({shuffle, setShuffle, setMoves, size }) {
   useEffect(() => {
     setTiles(createGrid(size, size));
     setShuffle(true);
-    setGameOver(isSorted(tiles));
+    setMoves(0);
   }, [size]);
 
   /**
@@ -149,7 +149,12 @@ export default function Grid({shuffle, setShuffle, setMoves, size }) {
     maxTile = getMaxTile(tiles);
   
 		// Check if the grid is sorted and notify user
-		isSorted(tiles) ? setGameOver(true) : setGameOver(false);
+		if(isSorted(tiles)) {
+      setGameOver(true);
+      setPaused(true);
+    } else {
+      setGameOver(false);
+    }
     return (new Promise((res) => {
       setTimeout(() => {
         res();
@@ -168,6 +173,9 @@ export default function Grid({shuffle, setShuffle, setMoves, size }) {
     let randDirection;
 
     setInteractable(false);
+    setPaused(true);
+    setTime(0);
+    setMoves(0);
     for (let i = 0; i < iterations; i++) {
       randDirection = getRandomValidDirection(randDirection, maxTile, tiles);
       await swapTiles({
@@ -179,6 +187,7 @@ export default function Grid({shuffle, setShuffle, setMoves, size }) {
     setTiles(newTiles);
     setInteractable(true);
     setShuffle(false);
+    setPaused(false);
   }
 
   useEffect(() => {
