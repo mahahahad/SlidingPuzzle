@@ -3,6 +3,8 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Radio Canada Big", sans-serif;
+  background-color: #09090b; /* Deep rich dark background */
+  color: #f4f4f5; /* Light gray text */
 }
 
 a {

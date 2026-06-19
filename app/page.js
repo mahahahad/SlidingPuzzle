@@ -1,3 +1,5 @@
+'use client'
+
 import styles from '../styles/Home.module.css';
 import Grid from "./grid"
 import MoveWrapper from './moveWrapper';
@@ -13,20 +15,22 @@ export default function Home() {
     <div className={styles.container}>
       <div className={styles.gridWrapper} >
         <MoveWrapper moves={moves} />
-        <Grid
-          shuffle={shuffle}
-          setShuffle={setShuffle}
-          size={size}
-          moves={moves}
-          setMoves={setMoves}
-        />
+        <div className={styles.gameplayArea}>
+          <OptionsWrapper
+            size={size}
+            setSize={setSize}
+            shuffle={shuffle}
+            setShuffle={setShuffle}
+          />
+          <Grid
+            shuffle={shuffle}
+            setShuffle={setShuffle}
+            size={size}
+            moves={moves}
+            setMoves={setMoves}
+          />
+        </div>
       </div>
-      <OptionsWrapper
-        size={size}
-        setSize={setSize}
-        shuffle={shuffle}
-        setShuffle={setShuffle}
-      />
     </div>
   );
 }

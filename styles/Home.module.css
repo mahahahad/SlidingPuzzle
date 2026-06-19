@@ -24,51 +24,130 @@
   flex-grow: 6;
 }
 
-.optionsTitle {
-  font-size: clamp(1.5rem, 3.5vmin, 2rem);
-  margin: 0;
+.gameplayArea {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: fit-content;
+  margin-top: 1.5rem;
+}
+
+.settingsBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   margin-bottom: 1rem;
 }
 
-.optionsWrapper {
-  background: #222;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
+.dropdownContainer {
+  position: relative;
 }
 
-.optionsGroupWrapper {
-  display: flex;
-  flex-direction: column;
+.settingsBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  background-color: #18181b; /* zinc-900 */
+  color: #f4f4f5; /* zinc-100 */
+  border: 1px solid #27272a; /* zinc-800 */
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem; /* 8px */
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+  user-select: none;
 }
 
-.optionsGroupTitle {
-  font-size: clamp(0.75rem, 2vmin, 1.5rem);
+.settingsBtn:hover {
+  background-color: #27272a; /* zinc-800 */
+  border-color: #3f3f46; /* zinc-700 */
+}
+
+.settingsBtn:active {
+  background-color: #18181b;
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  z-index: 50;
+  min-width: 100%;
+  background-color: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
   margin: 0;
+  list-style: none;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.3),
+    0 4px 6px -4px rgba(0, 0, 0, 0.3);
 }
 
-.optionsAction {
-  margin-top: 2rem;
+.dropdownItem {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: #a1a1aa; /* zinc-400 */
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+  white-space: nowrap;
+}
+
+.dropdownItem:hover {
+  background-color: #27272a;
+  color: #f4f4f5;
+}
+
+.dropdownItemActive {
+  background-color: #27272a;
+  color: #ffffff;
+  font-weight: 600;
 }
 
 .tile {
-  --bg-color: #000000;
-  --fg-color: #FFFFFF;
+  --bg-color: #18181b; /* zinc-900 / dark grey matching your redesign */
+  --fg-color: #ffffff; /* pure white bold text */
   user-select: none;
   aspect-ratio: 1/1;
   height: clamp(1rem, 10vmin, 10rem);
-  font-size: clamp(0.5rem, 1.5vmin, 1rem);
-  border-radius: .25rem;
+  font-size: clamp(1.25rem, 4vmin, 3rem); /* larger, bolder numbers */
+  font-weight: 700;
+  border-radius: 0.75rem; /* smooth modern rounded corners */
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg-color);
   color: var(--fg-color);
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.tile h1 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.tile__default {
+  /* inherits all styles from .tile */
 }
 
 .tile__empty {
@@ -126,11 +205,4 @@
 .sizeInputWrapper {
   display: flex;
   justify-content: space-between;
-}
-
-@media (prefers-color-scheme: dark) {
-  .tile {
-    --bg-color: white;
-    --fg-color: black;
-  }
 }

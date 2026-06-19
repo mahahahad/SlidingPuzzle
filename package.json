@@ -6,13 +6,20 @@
     "start": "next start"
   },
   "dependencies": {
-    "framer-motion": "^11.2.14",
+    "framer-motion": "^12.40.0",
     "lucide-react": "^0.408.0",
-    "next": "latest",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "next": "^16.2.9",
+    "postcss": "^8.5.15",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "engines": {
     "node": ">=18"
+  },
+  "allowScripts": {
+    "sharp@0.34.5": true
+  },
+  "overrides": {
+    "postcss": "^8.5.15"
   }
 }
