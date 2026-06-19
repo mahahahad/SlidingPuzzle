@@ -126,7 +126,6 @@ export default function Grid({shuffle, setShuffle, setMoves, size }) {
 
   useEffect(() => {
     setTiles(createGrid(size, size));
-    setShuffle(true);
     setGameOver(isSorted(tiles));
   }, [size]);
 

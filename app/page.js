@@ -10,7 +10,7 @@ export default function Home() {
   const [moves, setMoves] = useState(0);
   const [time, setTime] = useState(0);
   const [size, setSize] = useState(3);
-  const [shuffle, setShuffle] = useState(false);
+  const [shuffle, setShuffle] = useState(true); // Default to true to shuffle initially
 
   useEffect(() => {
 
