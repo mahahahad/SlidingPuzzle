@@ -3,6 +3,12 @@ import styles from "../styles/Home.module.css";
 import Tile from "../components/tile";
 import { motion } from "framer-motion";
 
+export const GameState = {
+  PLAYING: "PLAYING",
+  PAUSED: "PAUSED",
+  SOLVED: "SOLVED",
+}
+
 // Check if each element in each row of the grid is sorted
 // Loops through each element and checks if it is less than the next element
 // If it isn't, returns immediately
@@ -118,7 +124,7 @@ function createGrid(sizeX, sizeY) {
   return (grid);
 }
 
-export default function Grid({shuffle, setShuffle, setMoves, size, setTime, setPaused }) {
+export default function Grid({shuffle, setShuffle, setMoves, size, setTime, setState }) {
   const [interactable, setInteractable] = useState(true);
 	const [tiles, setTiles] = useState(createGrid(size, size));
   const [gameOver, setGameOver] = useState(isSorted(tiles));
@@ -151,7 +157,7 @@ export default function Grid({shuffle, setShuffle, setMoves, size, setTime, setP
 		// Check if the grid is sorted and notify user
 		if(isSorted(tiles)) {
       setGameOver(true);
-      setPaused(true);
+      setState(GameState.SOLVED);
     } else {
       setGameOver(false);
     }
@@ -173,7 +179,7 @@ export default function Grid({shuffle, setShuffle, setMoves, size, setTime, setP
     let randDirection;
 
     setInteractable(false);
-    setPaused(true);
+    setState(GameState.PAUSED);
     setTime(0);
     setMoves(0);
     for (let i = 0; i < iterations; i++) {
@@ -187,7 +193,7 @@ export default function Grid({shuffle, setShuffle, setMoves, size, setTime, setP
     setTiles(newTiles);
     setInteractable(true);
     setShuffle(false);
-    setPaused(false);
+    setState(GameState.PLAYING);
   }
 
   useEffect(() => {
