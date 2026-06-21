@@ -1,0 +1,104 @@
+.profileContainer {
+  min-height: 100vh;
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.15s ease;
+  width: fit-content;
+  text-decoration: none;
+}
+
+.backBtn:hover {
+  color: var(--text-primary);
+}
+
+.profileCard {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 1rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.avatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  border: 2px solid var(--border-hover);
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background-color: var(--border-card);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  border: 2px solid var(--border-hover);
+}
+
+.username {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+.profileMeta {
+  width: 100%;
+  border-top: 1px solid var(--border-card);
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.metaItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.metaLabel {
+  color: var(--text-secondary);
+}
+
+.metaValue {
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.loadingWrapper, .errorWrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 1rem;
+}

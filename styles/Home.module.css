@@ -157,12 +157,30 @@
   border-radius: 50%;
   border: 1px solid var(--border-card);
   object-fit: cover;
+  transition: border-color 0.15s ease;
 }
 
 .userName {
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-secondary);
+  transition: color 0.15s ease;
+}
+
+.profileLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.profileLink:hover .userName {
+  color: var(--text-primary);
+}
+
+.profileLink:hover .avatar {
+  border-color: var(--border-hover);
 }
 
 .iconBtn {

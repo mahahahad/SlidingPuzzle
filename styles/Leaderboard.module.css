@@ -120,6 +120,21 @@
   border-bottom: none;
 }
 
+.playerLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.playerLink:hover .playerCell span {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
+.playerLink:hover .tableAvatar {
+  border-color: var(--text-primary);
+}
+
 .playerCell {
   display: flex;
   align-items: center;

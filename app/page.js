@@ -164,14 +164,16 @@ export default function Home() {
         </Link>
         {user ? (
           <>
-            <span className={styles.userName}>{user.user_metadata.full_name}</span>
-            {user.user_metadata.avatar_url && (
-              <img 
-                src={user.user_metadata.avatar_url} 
-                alt="Avatar" 
-                className={styles.avatar} 
-              />
-            )}
+            <Link href={`/profile/${user.user_metadata.full_name}`} className={styles.profileLink}>
+              <span className={styles.userName}>{user.user_metadata.full_name}</span>
+              {user.user_metadata.avatar_url && (
+                <img 
+                  src={user.user_metadata.avatar_url} 
+                  alt="Avatar" 
+                  className={styles.avatar} 
+                />
+              )}
+            </Link>
             <button 
               onClick={handleLogout} 
               className={styles.iconBtn} 

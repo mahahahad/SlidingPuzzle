@@ -91,16 +91,25 @@ export default function LeaderboardPage() {
               <tr key={entry.game_id} className={styles.tableRow}>
                 <td className={styles.tdRank}>{index + 1}</td>
                 <td className={styles.tdPlayer}>
-                  <div className={styles.playerCell}>
-                    {entry.avatar_url ? (
-                      <img src={entry.avatar_url} alt="" className={styles.tableAvatar} />
-                    ) : (
-                      <div className={styles.tableAvatarPlaceholder}>
-                        {entry.player_name ? entry.player_name[0].toUpperCase() : "?"}
+                  {entry.player_name ? (
+                    <Link href={`/profile/${entry.player_name}`} className={styles.playerLink}>
+                      <div className={styles.playerCell}>
+                        {entry.avatar_url ? (
+                          <img src={entry.avatar_url} alt="" className={styles.tableAvatar} />
+                        ) : (
+                          <div className={styles.tableAvatarPlaceholder}>
+                            {entry.player_name[0].toUpperCase()}
+                          </div>
+                        )}
+                        <span>{entry.player_name}</span>
                       </div>
-                    )}
-                    <span>{entry.player_name || "Anonymous"}</span>
-                  </div>
+                    </Link>
+                  ) : (
+                    <div className={styles.playerCell}>
+                      <div className={styles.tableAvatarPlaceholder}>?</div>
+                      <span>Anonymous</span>
+                    </div>
+                  )}
                 </td>
                 <td className={styles.tdSize}>{entry.grid_size}x{entry.grid_size}</td>
                 <td className={styles.tdMoves}>{entry.moves}</td>
