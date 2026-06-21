@@ -6,9 +6,16 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import styles from "./profile.module.css";
 
+const formatTime = (seconds) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
+};
+
 export default function ProfilePage({ params }) {
   const router = useRouter();
   const [profile, setProfile] = useState(null);
+  const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
 
@@ -23,8 +30,16 @@ export default function ProfilePage({ params }) {
           .eq("full_name", decodedUsername)
           .single();
 
+        const { data: gameData, error: gameDataError } = await supabase
+        .from("games")
+        .select()
+        .eq("user_id", data.id);
+
+        console.log(gameData);
+
         if (data) {
           setProfile(data);
+          setGames(gameData || []);
         }
       } catch (err) {
         console.error("Error fetching profile data:", err);
@@ -77,10 +92,6 @@ export default function ProfilePage({ params }) {
         <h1 className={styles.username}>{profile.full_name}</h1>
         
         <div className={styles.profileMeta}>
-          <div className={styles.metaItem}>
-            <span className={styles.metaLabel}>Status</span>
-            <span className={styles.metaValue}>Registered Player</span>
-          </div>
           {profile.updated_at && (
             <div className={styles.metaItem}>
               <span className={styles.metaLabel}>Last Active</span>
@@ -90,6 +101,36 @@ export default function ProfilePage({ params }) {
             </div>
           )}
         </div>
+      </div>
+
+      <div className={styles.gamesSection}>
+        <h2 className={styles.sectionTitle}>Recent Games</h2>
+        {games.length > 0 ? (
+          <table className={styles.gamesTable}>
+            <thead>
+              <tr>
+                <th className={styles.thSize}>Size</th>
+                <th className={styles.thMoves}>Moves</th>
+                <th className={styles.thTime}>Time</th>
+                <th className={styles.thDate}>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {games.map((game) => (
+                <tr key={game.game_id || game.id} className={styles.tableRow}>
+                  <td className={styles.tdSize}>{game.grid_size}x{game.grid_size}</td>
+                  <td className={styles.tdMoves}>{game.moves}</td>
+                  <td className={styles.tdTime}>{formatTime(game.time_seconds)}</td>
+                  <td className={styles.tdDate}>
+                    {game.completed_at ? new Date(game.completed_at).toLocaleDateString() : "N/A"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className={styles.noGames}>No games completed yet.</p>
+        )}
       </div>
     </div>
   );
