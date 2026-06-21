@@ -1,0 +1,7 @@
+.grid {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5vmin, 1rem, 3vmin);
+}

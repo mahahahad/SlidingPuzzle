@@ -1,4 +1,4 @@
-import styles from '../styles/Home.module.css'
+import styles from './tile.module.css'
 import { motion } from "framer-motion"
 
 export default function Tile({ type = "default", background = false, value }) {
@@ -6,8 +6,8 @@ export default function Tile({ type = "default", background = false, value }) {
 
   const tileVariants = {
     win: {
-      backgroundColor: "#AAFF22",
-      color: "#002211",
+      backgroundColor: "var(--accent-victory)",
+      color: "var(--text-victory)",
     },
     default: {
       backgroundColor: null,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
+import styles from "./grid.module.css";
 import Tile from "../components/tile";
 import { motion } from "framer-motion";
 

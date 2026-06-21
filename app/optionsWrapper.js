@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import styles from "../styles/Home.module.css";
+import styles from "./optionsWrapper.module.css";
 import { ChevronDown, Shuffle } from "lucide-react";
 
 export default function OptionsWrapper({ size, setSize, shuffle, setShuffle }) {

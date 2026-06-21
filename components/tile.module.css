@@ -1,0 +1,34 @@
+.tile {
+  --bg-color: var(--bg-card);
+  --fg-color: var(--text-primary);
+  user-select: none;
+  aspect-ratio: 1/1;
+  height: clamp(1rem, 10vmin, 10rem);
+  font-size: clamp(1.25rem, 4vmin, 3rem);
+  font-weight: 700;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-color);
+  color: var(--fg-color);
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.tile h1 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.tile__default {
+  /* inherits all styles from .tile */
+}
+
+.tile__empty {
+  opacity: 0;
+  cursor: default;
+}

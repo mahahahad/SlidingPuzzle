@@ -1,27 +1,26 @@
-import "../styles/global.css"
+import { Radio_Canada_Big } from "next/font/google";
+import "../styles/global.css";
 
+const radioCanadaBig = Radio_Canada_Big({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-radio-canada",
+  display: "swap",
+});
 
 export default function Document({children}) {
   return (
-    <html>
+    <html lang="en" className={radioCanadaBig.variable}>
       <head>
-        <meta name="color-scheme" content="dark light"></meta>
+        <meta name="color-scheme" content="dark light" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-        <link href="https://fonts.googleapis.com/css2?family=Radio+Canada+Big:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet" />
         <title>Sliding Puzzle</title>
-        <style>
-          {`
-          html {
-            font-family: "Radio Canada Big"
-            }
-          `}
-        </style>
       </head>
-      <body>
+      <body className={radioCanadaBig.className}>
         {children}
       </body>
     </html> 
   );
 }
+

@@ -1,10 +1,27 @@
+:root {
+  --bg-dark: #09090b;
+  --bg-card: #18181b;
+  --border-card: #27272a;
+  --border-hover: #3f3f46;
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --text-light: #f4f4f5;
+  
+  --accent-amber: #fbbf24;
+  --accent-emerald: #10b981;
+  --accent-red: #ef4444;
+  --accent-victory: #aaff22;
+  --text-victory: #002211;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Radio Canada Big", sans-serif;
-  background-color: #09090b; /* Deep rich dark background */
-  color: #f4f4f5; /* Light gray text */
+  font-family: var(--font-radio-canada), "Radio Canada Big", sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
 }
 
 a, button, input {
@@ -21,3 +38,4 @@ img {
   max-width: 100%;
   height: auto;
 }
+

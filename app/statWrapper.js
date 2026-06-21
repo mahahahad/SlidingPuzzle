@@ -1,4 +1,4 @@
-import styles from "../styles/Home.module.css"
+import styles from "./statWrapper.module.css"
 
 export default function StatWrapper({ type, value }) {
   return (

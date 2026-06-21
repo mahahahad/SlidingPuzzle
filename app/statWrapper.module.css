@@ -1,0 +1,20 @@
+.statWrapper {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(0.5rem, 1.5vmin, 2rem);
+}
+
+.statWrapper * {
+  margin: 0;
+}
+
+.statTitle {
+  opacity: 0.8;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.statValue {
+  font-size: clamp(1.5rem, 4vmin, 3rem);
+  line-height: 1.1;
+}
