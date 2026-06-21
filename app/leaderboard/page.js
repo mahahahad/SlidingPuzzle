@@ -88,7 +88,7 @@ export default function LeaderboardPage() {
           </thead>
           <tbody>
             {sortedData.map((entry, index) => (
-              <tr key={entry.user_id} className={styles.tableRow}>
+              <tr key={entry.game_id} className={styles.tableRow}>
                 <td className={styles.tdRank}>{index + 1}</td>
                 <td className={styles.tdPlayer}>
                   <div className={styles.playerCell}>
