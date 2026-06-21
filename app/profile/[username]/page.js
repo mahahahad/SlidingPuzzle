@@ -35,8 +35,6 @@ export default function ProfilePage({ params }) {
         .select()
         .eq("user_id", data.id);
 
-        console.log(gameData);
-
         if (data) {
           setProfile(data);
           setGames(gameData || []);
