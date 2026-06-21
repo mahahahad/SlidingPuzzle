@@ -5,7 +5,8 @@ import Grid, { GameState } from "./grid"
 import StatWrapper from './statWrapper';
 import { useState, useEffect, useRef } from "react";
 import OptionsWrapper from './optionsWrapper';
-import { LogOut, LogIn } from "lucide-react";
+import { LogOut, LogIn, Trophy } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   const [moves, setMoves] = useState(0);
@@ -69,12 +70,11 @@ export default function Home() {
       try {
         const pendingScore = JSON.parse(pendingScoreStr);
         const supabase = createClient();
-        const { error } = await supabase.from('leaderboard').insert({
+        const { error } = await supabase.from('games').insert({
           user_id: user.id,
-          player_name: user.user_metadata.full_name,
+          grid_size: pendingScore.size,
           moves: pendingScore.moves,
           time_seconds: pendingScore.time,
-          grid_size: pendingScore.size
         });
 
         if (error) {
@@ -94,12 +94,15 @@ export default function Home() {
   // Google login pop up when puzzle is solved and user is not logged in
   const handleGoogleLogin = async () => {
     // Save current game score details to localStorage before redirecting
-    const pendingScore = {
-      moves: moves,
-      time: time,
-      size: size
-    };
-    localStorage.setItem("pending_score", JSON.stringify(pendingScore));
+    // ONLY if the game is finished
+    if (state === GameState.SOLVED) {
+      const pendingScore = {
+        moves: moves,
+        time: time,
+        size: size
+      };
+      localStorage.setItem("pending_score", JSON.stringify(pendingScore));
+    }
 
     const supabase = createClient();
     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -108,7 +111,6 @@ export default function Home() {
         redirectTo: window.location.origin
       }
     })
-    console.log(data);
   }
 
   const handleLogout = async () => {
@@ -125,12 +127,11 @@ export default function Home() {
     if (!user) return;
 
     const supabase = createClient();
-    const { error } = await supabase.from('leaderboard').insert({
+    const { error } = await supabase.from('games').insert({
       user_id: user.id,
-      player_name: user.user_metadata.full_name,
+      grid_size: size,
       moves: moves,
       time_seconds: time,
-      grid_size: size
     })   
 
     if (error) {
@@ -157,6 +158,10 @@ export default function Home() {
     <div className={styles.container}>
       {/* Auth Bar in Top Right Corner */}
       <div className={styles.authBar}>
+        <Link href="/leaderboard" className={styles.authBtn} style={{ textDecoration: 'none' }}>
+          <Trophy size={16} />
+          <span>Leaderboard</span>
+        </Link>
         {user ? (
           <>
             <span className={styles.userName}>{user.user_metadata.full_name}</span>

@@ -400,6 +400,8 @@
   border-color: #3f3f46;
 }
 
+
+
 @media (max-width: 768px) {
   .gridWrapper {
     display: flex;
