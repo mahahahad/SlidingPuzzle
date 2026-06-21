@@ -1,11 +1,13 @@
 "use client"
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import styles from "./profile.module.css";
 
 export default function ProfilePage({ params }) {
+  const router = useRouter();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
@@ -40,10 +42,10 @@ export default function ProfilePage({ params }) {
   if (!profile) {
     return (
       <div className={styles.profileContainer}>
-        <Link href="/" className={styles.backBtn}>
+        <button onClick={() => router.back()} className={styles.backBtn}>
           <ArrowLeft size={16} />
-          <span>Back to Game</span>
-        </Link>
+          <span>Back</span>
+        </button>
         <div className={styles.profileCard}>
           <div className={styles.avatarPlaceholder}>?</div>
           <h1 className={styles.username}>Profile Not Found</h1>
@@ -61,10 +63,10 @@ export default function ProfilePage({ params }) {
 
   return (
     <div className={styles.profileContainer}>
-      <Link href="/" className={styles.backBtn}>
+      <button onClick={() => router.back()} className={styles.backBtn}>
         <ArrowLeft size={16} />
-        <span>Back to Game</span>
-      </Link>
+        <span>Back</span>
+      </button>
 
       <div className={styles.profileCard}>
         {profile.avatar_url ? (
